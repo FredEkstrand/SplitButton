@@ -1,0 +1,9 @@
+C:\SoftwareProjects\SplitButton\SplitButton\bin\Debug\SplitButton.dll
+C:\SoftwareProjects\SplitButton\SplitButton\bin\Debug\SplitButton.pdb
+C:\SoftwareProjects\SplitButton\SplitButton\bin\Debug\System.Net.Http.dll
+C:\SoftwareProjects\SplitButton\SplitButton\bin\Debug\System.Net.Http.xml
+C:\SoftwareProjects\SplitButton\SplitButton\obj\Debug\SplitButton.csprojResolveAssemblyReference.cache
+C:\SoftwareProjects\SplitButton\SplitButton\obj\Debug\SplitButton.dll
+C:\SoftwareProjects\SplitButton\SplitButton\obj\Debug\SplitButton.pdb
+C:\SoftwareProjects\SplitButton\SplitButton\obj\Debug\Ekstrand.Windows.Forms.Properties.Resources.resources
+C:\SoftwareProjects\SplitButton\SplitButton\obj\Debug\SplitButton.csproj.GenerateResource.Cache

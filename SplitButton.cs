@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Drawing.Design;
 
 namespace Ekstrand.Windows.Forms
 {
@@ -21,9 +22,7 @@ namespace Ekstrand.Windows.Forms
         private Image m_Chevron3;
         private bool m_InternalPaint = false;
         // private Rectangle dropDownRectangle = new Rectangle();
-        private Rectangle m_SplitButtonRectangle;
-
-        // Allow painting over button when FlayStyle is set to system.
+        private Rectangle m_SplitButtonRectangle;        
         private SplitButtonSide m_SplitButtonSide = SplitButtonSide.Right;
 
         private PushButtonState m_State;
@@ -33,6 +32,7 @@ namespace Ekstrand.Windows.Forms
         private float m_XPos;
         private float m_YPos;
         private bool skipNextOpen = false;
+        private bool m_MenuOpen = false;
 
         #endregion Fields
 
@@ -42,10 +42,7 @@ namespace Ekstrand.Windows.Forms
         {
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            if (DesignMode)
-            {
-                m_Text = Name;
-            }
+                                 
             m_State = PushButtonState.Normal;
             m_Chevron1 = new Bitmap(Ekstrand.Windows.Forms.Properties.Resources.Chevron1);
             m_Chevron2 = new Bitmap(Ekstrand.Windows.Forms.Properties.Resources.Chevron2);
@@ -118,7 +115,7 @@ namespace Ekstrand.Windows.Forms
         [
            Browsable(false),
            SettingsBindable(false),
-           // Editor(typeof(System.ComponentModel.Design.MultilineStringEditor), typeof(System.Drawing.Design.UITypeEditor)),
+           Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor)),
            EditorBrowsable(EditorBrowsableState.Never),
            DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)
         ]
@@ -139,7 +136,7 @@ namespace Ekstrand.Windows.Forms
            Category("Appearance"),
            Description("Text to be displayed to user")
            Browsable(true),
-           //Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor)),
+           Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor)),
            SettingsBindable(true),
            EditorBrowsable(EditorBrowsableState.Always),
            DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)
@@ -238,7 +235,7 @@ namespace Ekstrand.Windows.Forms
             {
                 if (m_SplitButtonRectangle.Contains(this.PointToClient(Cursor.Position)))
                 {
-                    ShowContextMenuStrip();
+                    ShowContextMenuStrip();                    
                 }
                 else
                 {
@@ -259,17 +256,20 @@ namespace Ekstrand.Windows.Forms
 
         protected override void OnMouseLeave(EventArgs e)
         {
-            if (m_State != PushButtonState.Pressed && m_State != PushButtonState.Disabled)
+            if (!m_MenuOpen)
             {
-                if (Focused)
+                if (m_State != PushButtonState.Pressed && m_State != PushButtonState.Disabled)
                 {
-                    m_State = PushButtonState.Default;
-                    Invalidate();
-                }
-                else
-                {
-                    m_State = PushButtonState.Normal;
-                    Invalidate();
+                    if (Focused)
+                    {
+                        m_State = PushButtonState.Default;
+                        Invalidate();
+                    }
+                    else
+                    {
+                        m_State = PushButtonState.Normal;
+                        Invalidate();
+                    }
                 }
             }
         }
@@ -320,26 +320,7 @@ namespace Ekstrand.Windows.Forms
 
             Graphics g = pevent.Graphics;
 
-
-            // draw the button background as according to the current state.
-            if (m_State != PushButtonState.Pressed && IsDefault && !Application.RenderWithVisualStyles)
-            {
-                Rectangle backgroundBounds = this.ClientRectangle;
-                backgroundBounds.Inflate(-1, -1);
-                ButtonRenderer.DrawButton(g, backgroundBounds, m_State);
-
-                // button renderer doesn't draw the black frame when themes are off =(
-                Pen p = m_State == PushButtonState.Hot ? SystemPens.Highlight : SystemPens.WindowFrame;
-                g.DrawRectangle(p, 0, 0, this.ClientRectangle.Width - 1, this.ClientRectangle.Height - 1);
-
-            }
-            else
-            {
-                ButtonRenderer.DrawButton(g, this.ClientRectangle, m_State);
-                Pen p = m_State == PushButtonState.Hot ? SystemPens.Highlight : SystemPens.WindowFrame;
-                g.DrawRectangle(p, 0, 0, this.ClientRectangle.Width - 1, this.ClientRectangle.Height - 1);
-            }
-
+            ButtonRenderer.DrawButton(g, this.ClientRectangle, m_State);
             DrawSplitButton(g);
 
             if (!string.IsNullOrEmpty(m_Text))
@@ -381,10 +362,7 @@ namespace Ekstrand.Windows.Forms
                 m_State = PushButtonState.Normal;
             }
 
-            if (e.CloseReason == ToolStripDropDownCloseReason.AppClicked)
-            {
-                skipNextOpen = true; //(m_SplitButtonRectangle.Contains(this.PointToClient(Cursor.Position)));
-            }
+            m_MenuOpen = false;
             Invalidate();
         }
 
@@ -463,7 +441,7 @@ namespace Ekstrand.Windows.Forms
             }
 
             m_State = PushButtonState.Pressed;
-
+            m_MenuOpen = true;
             if (ContextMenuStrip != null)
             {
                 ContextMenuStrip.Closing += new ToolStripDropDownClosingEventHandler(ContextMenuStrip_Closing);
@@ -541,6 +519,10 @@ namespace Ekstrand.Windows.Forms
 
         private void WmPaint(ref Message m)
         {
+            if(FlatStyle != FlatStyle.System)
+            {
+                return;
+            }
             IntPtr hWnd = IntPtr.Zero;
             IntPtr dc;
             Rectangle clip;
