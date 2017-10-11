@@ -26,17 +26,14 @@ sample code A.
 ```
 
 ### Screen shots
-sample A
 
-![Project type](https://github.com/FredEkstrand/ImageFiles/raw/master/CodeIcon.png )
+![Project type](https://github.com/FredEkstrand/ImageFiles/raw/master/SplitbuttonA.PNG )
+![Project type](https://github.com/FredEkstrand/ImageFiles/raw/master/SplitbuttonB.PNG )
+![Project type](https://github.com/FredEkstrand/ImageFiles/raw/master/SplitbuttonC.PNG )
 
-sample B
-
-![Project type](https://github.com/FredEkstrand/ImageFiles/raw/master/CodeIcon.png )
-
-sample C
-
-![Project type](https://github.com/FredEkstrand/ImageFiles/raw/master/CodeIcon.png )
+![Project type](https://github.com/FredEkstrand/ImageFiles/raw/master/SplitbuttonD.PNG )
+![Project type](https://github.com/FredEkstrand/ImageFiles/raw/master/SplitbuttonE.PNG )
+![Project type](https://github.com/FredEkstrand/ImageFiles/raw/master/SplitbuttonF.PNG )
 
 ## API
 API documentation can be found [here](#). 
