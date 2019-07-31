@@ -3,12 +3,12 @@
 
 ![License MIT](https://img.shields.io/badge/Licence-MIT-blue.svg)
 
-![image](https://github.com/FredEkstrand/ImageFiles/raw/master/SplitButton/SplitButtonA.png)
+![image](https://github.com/FredEkstrand/ImageFiles/raw/master/SplitButton/ProjecImage.PNG)
 
 # Overview
 The split button control is a composite control consisting a button and a drop-down menu.
 
-This is an experimental project with the focus on drawing the split button when FlatStyles selected is System.
+**This is an experimental project with the focus on drawing the split button when FlatStyles selected is System.**
 
 ### Features
 
@@ -21,7 +21,6 @@ This is an experimental project with the focus on drawing the split button when 
 # Getting started
 The souce code is written in C# and targeted for the .Net Framework 4.0 and later. Download the entire project and compile.
 
-## Getting started
 
 # Usage
 
